@@ -1,0 +1,339 @@
+// Sample data for demonstration
+const chatsData = [
+  { id: '1', name: 'Samuel Diamond', lastMessage: 'How ya guys doing', time: '3h', avatar: 'avatar1.jpg' },
+  { id: '2', name: 'Nigel Jackson', lastMessage: 'You: Hey buddy', time: '11h', avatar: 'avatar2.jpg' }
+];
+
+const requestsData = [];
+const archivedData = [];
+const groupsData = [];
+const settingsData = {
+  account: { name: 'Austin Clayton', avatar: 'avatar3.jpg' },
+  activeStatus: true,
+  notifications: { notificationSounds: true, doNotDisturb: false },
+  darkMode: 'off'
+};
+
+// DOM Elements
+const chatList = document.querySelector('#chats .chat-list');
+const requestsList = document.querySelector('#requests .request-list');
+const archivedList = document.querySelector('#archived .archived-list');
+const groupsList = document.querySelector('#groups .group-list');
+const chatWindow = document.querySelector('.chat-window');
+const sidebarItems = document.querySelectorAll('.sidebar li');
+const sections = document.querySelectorAll('.section');
+const searchInput = document.getElementById('search');
+
+// Show specific section
+function showSection(sectionId) {
+  sections.forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(sectionId).classList.add('active');
+  chatWindow.style.display = 'none'; // Hide chat window when switching sections
+}
+
+// Populate chat list
+function populateChatList(data, listElement) {
+  listElement.innerHTML = ''; // Clear existing items
+
+  data.forEach(chat => {
+    const chatItem = document.createElement('li');
+    chatItem.classList.add('chat-item');
+    chatItem.dataset.chatId = chat.id;
+    chatItem.innerHTML = `
+            <img src="${chat.avatar}" alt="${chat.name}'s Avatar">
+            <div class="chat-details">
+                <span class="name">${chat.name}</span>
+                <span class="preview">${chat.lastMessage || ''}</span>
+            </div>
+            <span class="time">${chat.time || ''}</span>
+        `;
+    chatList.appendChild(chatItem);
+
+    // Add click event to open chat window
+    chatItem.addEventListener('click', () => {
+      showChat(chat.id);
+    });
+  });
+}
+
+// Show chat window
+function showChat(chatId) {
+  const chat = chatsData.find(chat => chat.id === chatId);
+
+  if (!chat) {
+    console.error("Chat not found:", chatId);
+    return;
+  }
+
+  // Chat header
+  const chatHeader = document.createElement('div');
+  chatHeader.classList.add('chat-header');
+  chatHeader.innerHTML = `
+        <button class="back-button" onclick="showSection('chats')">&lt;</button>
+        <img src="${chat.avatar}" alt="${chat.name}'s Avatar">
+        <div class="chat-header-details">
+            <h3>${chat.name}</h3>
+            <span class="active-status">${chat.isActive ? 'Active now' : 'Offline'}</span>
+        </div>
+    `;
+
+  // Clear chat window and add header
+  chatWindow.innerHTML = '';
+  chatWindow.appendChild(chatHeader);
+
+  // Add messages (Placeholder messages)
+  const messages = [
+    { text: 'Hey, are you ready?', sent: true, timestamp: '6:22 PM' },
+    { text: 'Yes, I am!', sent: false, timestamp: '6:23 PM' }
+    ];
+
+  messages.forEach(message => {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', message.sent ? 'sent' : 'received');
+    messageElement.innerHTML = `
+            <p>${message.text}</p>
+            <span class="timestamp">${message.timestamp}</span>
+        `;
+    chatWindow.appendChild(messageElement);
+  });
+
+  // Show chat window and hide other sections
+  chatWindow.style.display = 'flex';
+  sections.forEach(section => {
+    section.classList.remove('active');
+  });
+}
+
+// Populate settings
+function populateSettings(data) {
+  const settingsContainer = document.getElementById('settings-content');
+  settingsContainer.innerHTML = `
+        <img src="${data.account.avatar}" alt="Profile Picture">
+        <h3>${data.account.name}</h3>
+        <p>Active Status: ${data.activeStatus ? 'ON' : 'OFF'}</p>
+        <p>Notifications: ${data.notifications.notificationSounds ? 'ON' : 'OFF'}</p>
+        <p>Dark Mode: ${data.darkMode}</p>
+    `;
+}
+
+// Sidebar navigation
+sidebarItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const sectionId = item.dataset.section;
+    showSection(sectionId);
+
+    // Populate respective sections
+    if (sectionId === 'chats') populateChatList(chatsData, chatList);
+    else if (sectionId === 'requests') populateChatList(requestsData, requestsList);
+    else if (sectionId === 'archived') populateChatList(archivedData, archivedList);
+    else if (sectionId === 'groups') populateChatList(groupsData, groupsList);
+    else if (sectionId === 'settings') populateSettings(settingsData);
+  });
+});
+
+// Search functionality
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredChats = chatsData.filter(chat =>
+    chat.name.toLowerCase().includes(searchTerm) ||
+    (chat.lastMessage && chat.lastMessage.toLowerCase().includes(searchTerm))
+  );
+  populateChatList(filteredChats, chatList);
+});
+
+// Initialize
+populateChatList(chatsData, chatList);
+Here’s the complete JavaScript code for integrating the SQLite database via the Flask backend:
+
+// Base API URL
+const apiUrl = "http://localhost:5000"; // Change this if using a different host
+
+// Utility: Fetch data from the API
+async function fetchData(endpoint) {
+    try {
+        const response = await fetch(`${apiUrl}/${endpoint}`);
+        if (!response.ok) throw new Error(`Failed to fetch ${endpoint}`);
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+// Populate Contacts
+async function populateContacts() {
+    const contacts = await fetchData('contacts');
+    const listElement = document.querySelector('#chats .chat-list');
+    listElement.innerHTML = '';
+    contacts.forEach(contact => {
+        const contactItem = document.createElement('li');
+        contactItem.className = 'chat-item';
+        contactItem.innerHTML = `
+            <div class="chat-details">
+                <span class="name">${contact.name}</span>
+                <span class="preview">${contact.phone}</span>
+            </div>
+        `;
+        contactItem.addEventListener('click', () => showMessages(contact.name));
+        listElement.appendChild(contactItem);
+    });
+}
+
+// Show Messages (SMS)
+async function showMessages(contactName) {
+    const messages = await fetchData(`sms/${contactName}`);
+    const chatWindow = document.querySelector('.chat-window');
+    chatWindow.innerHTML = '';
+    messages.forEach(msg => {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${msg.type}`;
+        messageElement.innerHTML = `
+            <p>${msg.text}</p>
+            <span class="timestamp">${msg.time}</span>
+        `;
+        chatWindow.appendChild(messageElement);
+    });
+    chatWindow.style.display = 'flex';
+}
+
+// Show Call History
+async function showCallHistory(contactName) {
+    const calls = await fetchData(`calls/${contactName}`);
+    const listElement = document.querySelector('#archived .archived-list');
+    listElement.innerHTML = '';
+    calls.forEach(call => {
+        const callItem = document.createElement('li');
+        callItem.className = 'call-item';
+        callItem.innerHTML = `
+            <span class="call-type">${call.type}</span>
+            <span class="call-time">${call.time}</span>
+            <span class="call-duration">${call.duration} min</span>
+        `;
+        listElement.appendChild(callItem);
+    });
+}
+
+// Populate Settings
+async function populateSettings() {
+    const settings = await fetchData('settings'); // Add the backend for fetching settings if needed
+    const settingsContainer = document.getElementById('settings-content');
+    settingsContainer.innerHTML = `
+        <img src="${settings.account.avatar}" alt="Profile Picture">
+        <h3>${settings.account.name}</h3>
+        <p>Active Status: ${settings.activeStatus ? 'ON' : 'OFF'}</p>
+        <p>Notifications: ${settings.notifications.notificationSounds ? 'ON' : 'OFF'}</p>
+        <p>Dark Mode: ${settings.darkMode}</p>
+    `;
+}
+
+// Show Specific Section
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    const chatWindow = document.querySelector('.chat-window');
+    sections.forEach(section => section.classList.remove('active'));
+    document.getElementById(sectionId).classList.add('active');
+    chatWindow.style.display = 'none';
+}
+
+// Sidebar Navigation
+function setupSidebar() {
+    const sidebarItems = document.querySelectorAll('.sidebar li');
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const sectionId = item.dataset.section;
+            showSection(sectionId);
+            if (sectionId === 'chats') populateContacts();
+            else if (sectionId === 'archived') populateCallHistory(); // Modify this if you want to fetch archived data
+            else if (sectionId === 'settings') populateSettings();
+        });
+    });
+}
+
+// Search Functionality
+function setupSearch() {
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', async () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const contacts = await fetchData('contacts');
+        const filteredContacts = contacts.filter(contact =>
+            contact.name.toLowerCase().includes(searchTerm) ||
+            contact.phone.toLowerCase().includes(searchTerm)
+        );
+        populateContacts(filteredContacts);
+    });
+}
+
+// Initialize Application
+async function initializeApp() {
+    setupSidebar();
+    setupSearch();
+    await populateContacts(); // Populate contacts by default
+}
+
+// Start the app
+initializeApp();
+
+
+---
+
+Key Features of the Code:
+
+1. Dynamic API Calls:
+
+Fetches data from the Flask backend using fetchData.
+
+
+
+2. Contact Management:
+
+Populates the contact list dynamically from the database.
+
+
+
+3. SMS and Call History:
+
+Fetches and displays messages and call history for each contact.
+
+
+
+4. Settings:
+
+Displays user settings dynamically (extendable based on your backend).
+
+
+
+5. Search:
+
+Filters contacts dynamically based on search input.
+
+
+
+6. Modular Design:
+
+Organized into distinct functions for maintainability and clarity.
+
+
+
+
+
+---
+
+How to Use:
+
+1. Ensure the Flask backend is running on http://localhost:5000.
+
+
+2. Place this JavaScript file in your project.
+
+
+3. Verify the HTML structure matches the expected DOM elements (#chats, .chat-list, etc.).
+
+
+4. Test functionality by clicking sidebar items, searching contacts, and viewing SMS or call history.
+
+
+
+Let me know if you'd like further customizations or debugging assistance!
+
