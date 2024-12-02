@@ -43,9 +43,4 @@ def seed_database():
         db.session.commit()
 
 if __name__ == '__main__':
-    try:
-        print("Starting database seeding...")
-        seed_database()
-        print("Database seeding completed successfully!")
-    except Exception as e:
-        print(f"Error seeding database: {str(e)}")
+    seed_database()
