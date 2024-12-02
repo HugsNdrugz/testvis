@@ -1,9 +1,20 @@
 :root {
     --sidebar-width: 60px;
     --chat-list-width: 248px;
-    --icon-width: 44px;
-    --chat-row-height: 44px;
+    --icon-width: 102px;
+    --icon-padding: 6px;
+    --profile-section-height: 302px;
     --search-width: 230px;
+    --search-icon-size: 36px;
+    --left-margin-icons: 24px;
+    --chat-row-height: 44px;
+    --highlighted-chat-width: 496px;
+    --contact-name-width: 204px;
+    --timestamp-width: 137px;
+    --bottom-padding: 78px;
+    --back-button-padding: 20px;
+    --main-title-width: 300px;
+    --text-padding: 16px;
 }
 
 body {
@@ -17,24 +28,36 @@ body {
 .sidebar {
     position: fixed;
     height: 100vh;
-    padding: 1rem;
+    padding: var(--icon-padding);
     background: var(--bs-dark-bg-subtle);
     border-right: 1px solid var(--bs-border-color);
     width: var(--sidebar-width);
 }
 
 .sidebar .nav-item {
-    padding: 0.75rem;
-    margin: 0.5rem 0;
+    width: calc(var(--sidebar-width) - 2 * var(--icon-padding));
+    height: var(--chat-row-height);
+    margin: var(--icon-padding) 0;
+    padding-left: var(--left-margin-icons);
     cursor: pointer;
     border-radius: 0.5rem;
     display: flex;
-    justify-content: center;
     align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar .nav-item i {
+    width: 24px;
+    height: 24px;
+    color: var(--bs-secondary-color);
 }
 
 .sidebar .nav-item:hover {
-    background: var(--bs-secondary);
+    background: var(--bs-secondary-bg);
+}
+
+.sidebar .nav-item:hover i {
+    color: var(--bs-primary);
 }
 
 /* Main Content */
