@@ -1,5 +1,9 @@
 :root {
-    --sidebar-width: 250px;
+    --sidebar-width: 60px;
+    --chat-list-width: 248px;
+    --icon-width: 44px;
+    --chat-row-height: 44px;
+    --search-width: 230px;
 }
 
 body {
@@ -50,6 +54,11 @@ body {
     background-color: var(--bs-dark-bg-subtle);
     color: var(--bs-body-color);
     border: 1px solid var(--bs-border-color);
+    width: var(--search-width);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 /* Chat List */
@@ -62,7 +71,8 @@ body {
 .chat-item {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 6px;
+    height: var(--chat-row-height);
     border-bottom: 1px solid var(--bs-border-color);
     cursor: pointer;
 }
@@ -72,10 +82,11 @@ body {
 }
 
 .chat-item img {
-    width: 50px;
-    height: 50px;
+    width: var(--icon-width);
+    height: var(--icon-width);
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: 12px;
+    object-fit: cover;
 }
 
 .chat-details {
