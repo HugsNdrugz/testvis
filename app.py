@@ -10,7 +10,7 @@ db = SQLAlchemy(model_class=Base)
 app = Flask(__name__)
 
 app.secret_key = os.environ.get("FLASK_SECRET_KEY") or "message_viewer_secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///messages.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
