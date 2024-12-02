@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Viewer</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item" data-section="chats">
+                        <i data-feather="message-circle"></i>
+                        Messages
+                    </li>
+                    <li class="nav-item" data-section="requests">
+                        <i data-feather="users"></i>
+                        Requests
+                    </li>
+                    <li class="nav-item" data-section="archived">
+                        <i data-feather="archive"></i>
+                        Archived
+                    </li>
+                    <li class="nav-item" data-section="groups">
+                        <i data-feather="grid"></i>
+                        Groups
+                    </li>
+                    <li class="nav-item" data-section="settings">
+                        <i data-feather="settings"></i>
+                        Settings
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input type="text" id="search" placeholder="Search..." class="form-control">
+                </div>
+
+                <!-- Sections -->
+                <div id="chats" class="section active">
+                    <ul class="chat-list"></ul>
+                </div>
+
+                <div id="requests" class="section">
+                    <ul class="request-list"></ul>
+                </div>
+
+                <div id="archived" class="section">
+                    <ul class="archived-list"></ul>
+                </div>
+
+                <div id="groups" class="section">
+                    <ul class="group-list"></ul>
+                </div>
+
+                <div id="settings" class="section">
+                    <div id="settings-content"></div>
+                </div>
+
+                <!-- Chat Window -->
+                <div class="chat-window"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

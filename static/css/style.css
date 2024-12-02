@@ -1,0 +1,135 @@
+:root {
+    --sidebar-width: 250px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    height: 100vh;
+    padding: 1rem;
+    background: var(--bs-dark);
+    border-right: 1px solid var(--bs-border-color);
+}
+
+.sidebar .nav-item {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sidebar .nav-item:hover {
+    background: var(--bs-secondary);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 1rem;
+}
+
+/* Search Bar */
+.search-bar {
+    margin-bottom: 1rem;
+}
+
+/* Chat List */
+.chat-list, .request-list, .archived-list, .group-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    cursor: pointer;
+}
+
+.chat-item:hover {
+    background: var(--bs-secondary-bg);
+}
+
+.chat-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.chat-details {
+    flex: 1;
+}
+
+.chat-details .name {
+    font-weight: bold;
+    display: block;
+}
+
+.chat-details .preview {
+    color: var(--bs-secondary-color);
+    font-size: 0.9rem;
+}
+
+/* Chat Window */
+.chat-window {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - var(--sidebar-width));
+    background: var(--bs-dark);
+    padding: 1rem;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.message {
+    max-width: 70%;
+    margin: 1rem;
+    padding: 0.75rem;
+    border-radius: 1rem;
+}
+
+.message.sent {
+    align-self: flex-end;
+    background: var(--bs-primary);
+}
+
+.message.received {
+    align-self: flex-start;
+    background: var(--bs-secondary);
+}
+
+.timestamp {
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+}
+
+/* Settings */
+#settings-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+#settings-content img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
