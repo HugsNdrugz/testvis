@@ -4,6 +4,9 @@
 
 body {
     overflow-x: hidden;
+    background-color: var(--bs-dark);
+    height: 100vh;
+    margin: 0;
 }
 
 /* Sidebar */
@@ -11,8 +14,9 @@ body {
     position: fixed;
     height: 100vh;
     padding: 1rem;
-    background: var(--bs-dark);
+    background: var(--bs-dark-bg-subtle);
     border-right: 1px solid var(--bs-border-color);
+    width: var(--sidebar-width);
 }
 
 .sidebar .nav-item {
@@ -33,6 +37,8 @@ body {
 .main-content {
     margin-left: var(--sidebar-width);
     padding: 1rem;
+    background-color: var(--bs-dark);
+    min-height: 100vh;
 }
 
 /* Search Bar */
@@ -40,10 +46,17 @@ body {
     margin-bottom: 1rem;
 }
 
+.search-bar input {
+    background-color: var(--bs-dark-bg-subtle);
+    color: var(--bs-body-color);
+    border: 1px solid var(--bs-border-color);
+}
+
 /* Chat List */
 .chat-list, .request-list, .archived-list, .group-list {
     list-style: none;
     padding: 0;
+    background-color: var(--bs-dark);
 }
 
 .chat-item {
