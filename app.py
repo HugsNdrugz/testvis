@@ -39,18 +39,32 @@ def get_messages(contact_name):
         'type': 'sent' if msg.is_sent else 'received'
     } for msg in messages])
 
-@app.route('/calls/<contact_name>')
-def get_calls(contact_name):
-    calls = Call.query.join(Contact).filter(Contact.name == contact_name).all()
+@app.route('/calls')
+def get_calls():
+    calls = Call.query.join(Contact).all()
     return jsonify([{
         'type': call.call_type,
         'time': call.timestamp.strftime('%I:%M %p'),
-        'duration': call.duration
+        'duration': call.duration,
+        'name': call.contact.name
     } for call in calls])
 
 @app.route('/settings')
 def get_settings():
     settings = Settings.query.first()
+    if not settings:
+        return jsonify({
+            'account': {
+                'name': 'User',
+                'avatar': 'https://via.placeholder.com/100'
+            },
+            'activeStatus': True,
+            'notifications': {
+                'notificationSounds': True,
+                'doNotDisturb': False
+            },
+            'darkMode': 'off'
+        })
     return jsonify({
         'account': {
             'name': settings.name,
