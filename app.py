@@ -51,8 +51,22 @@ def get_calls():
 
 @app.route('/settings')
 def get_settings():
-    settings = Settings.query.first()
-    if not settings:
+    try:
+        settings = Settings.query.first()
+        return jsonify({
+            'account': {
+                'name': settings.name if settings else 'User',
+                'avatar': settings.avatar if settings else 'https://via.placeholder.com/100'
+            },
+            'activeStatus': settings.active_status if settings else True,
+            'notifications': {
+                'notificationSounds': settings.notification_sounds if settings else True,
+                'doNotDisturb': settings.do_not_disturb if settings else False
+            },
+            'darkMode': settings.dark_mode if settings else 'off'
+        })
+    except Exception as e:
+        app.logger.error(f"Error in settings: {str(e)}")
         return jsonify({
             'account': {
                 'name': 'User',
@@ -65,18 +79,6 @@ def get_settings():
             },
             'darkMode': 'off'
         })
-    return jsonify({
-        'account': {
-            'name': settings.name,
-            'avatar': settings.avatar
-        },
-        'activeStatus': settings.active_status,
-        'notifications': {
-            'notificationSounds': settings.notification_sounds,
-            'doNotDisturb': settings.do_not_disturb
-        },
-        'darkMode': settings.dark_mode
-    })
 
 with app.app_context():
     db.create_all()
