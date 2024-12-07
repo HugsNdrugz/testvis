@@ -1,0 +1,204 @@
+Understanding the Database Schema
+
+The schema is the structural definition of how data is stored in a database. It specifies the tables, their columns, data types, constraints, and relationships. Here’s an explanation of the schema for your SQLite database (data.db):
+
+
+---
+
+Tables in the Schema
+
+1. Contacts Table:
+
+Purpose: Stores information about contacts.
+
+Columns:
+
+contact_id (INTEGER, Primary Key, Auto-incremented): Unique identifier for each contact.
+
+name (TEXT, Not Null): The name of the contact.
+
+phone_number (TEXT): The contact’s phone number.
+
+email (TEXT): Email address of the contact.
+
+last_contacted (DATETIME): Timestamp of the last contact with the person.
+
+
+
+Example Data: | contact_id | name       | phone_number | email            | last_contacted       | |------------|------------|--------------|------------------|----------------------| | 1          | John Doe   | 1234567890   | john@example.com | 2023-12-01 10:00:00 | | 2          | Jane Smith | 9876543210   | jane@example.com | 2023-11-30 14:30:00 |
+
+
+
+
+---
+
+2. InstalledApps Table:
+
+Purpose: Tracks applications installed on a device.
+
+Columns:
+
+app_id (INTEGER, Primary Key, Auto-incremented): Unique ID for the app.
+
+application_name (TEXT, Not Null): The name of the application (e.g., "WhatsApp").
+
+package_name (TEXT, Not Null): The package identifier (e.g., com.whatsapp).
+
+install_date (DATETIME): Date the app was installed.
+
+
+
+Example Data: | app_id | application_name | package_name      | install_date       | |--------|------------------|-------------------|--------------------| | 1      | WhatsApp         | com.whatsapp      | 2023-10-01 08:30:00 | | 2      | Telegram         | org.telegram.messenger | 2023-09-20 12:00:00 |
+
+
+
+
+---
+
+3. Calls Table:
+
+Purpose: Logs details about phone calls.
+
+Columns:
+
+call_id (INTEGER, Primary Key, Auto-incremented): Unique ID for each call.
+
+call_type (TEXT, Not Null): Type of call (Incoming, Outgoing, Missed).
+
+time (DATETIME, Not Null): The timestamp of the call.
+
+from_to (TEXT): The contact or number involved in the call.
+
+duration (INTEGER, Default: 0): Duration of the call in seconds.
+
+location (TEXT): Geographic location of the call (if available).
+
+
+
+Example Data: | call_id | call_type  | time                 | from_to    | duration | location       | |---------|------------|----------------------|------------|----------|----------------| | 1       | Incoming   | 2023-12-01 09:15:00 | John Doe   | 180      | New York, USA  | | 2       | Missed     | 2023-11-29 13:45:00 | Jane Smith | 0        | -              |
+
+
+
+
+---
+
+4. SMS Table:
+
+Purpose: Logs details of SMS messages.
+
+Columns:
+
+sms_id (INTEGER, Primary Key, Auto-incremented): Unique ID for each SMS.
+
+sms_type (TEXT, Not Null): Type of SMS (Sent, Received).
+
+time (DATETIME, Not Null): Timestamp of the SMS.
+
+from_to (TEXT): Contact or number involved in the SMS.
+
+text (TEXT): The SMS content.
+
+location (TEXT): Geographic location (optional).
+
+
+
+Example Data: | sms_id | sms_type   | time                 | from_to    | text                | location       | |--------|------------|----------------------|------------|---------------------|----------------| | 1      | Sent       | 2023-12-01 08:00:00 | John Doe   | "Good morning!"     | New York, USA  | | 2      | Received   | 2023-12-01 08:10:00 | Jane Smith | "Good morning too!" | San Francisco  |
+
+
+
+
+---
+
+5. ChatMessages Table:
+
+Purpose: Logs chat messages from various messengers.
+
+Columns:
+
+message_id (INTEGER, Primary Key, Auto-incremented): Unique ID for each message.
+
+messenger (TEXT, Not Null): The name of the messenger app (e.g., WhatsApp, Telegram).
+
+time (DATETIME, Not Null): Timestamp of the message.
+
+sender (TEXT): Name or identifier of the sender.
+
+text (TEXT): Message content.
+
+
+
+Example Data: | message_id | messenger   | time                 | sender    | text              | |------------|-------------|----------------------|-----------|-------------------| | 1          | WhatsApp    | 2023-12-01 07:30:00 | John Doe  | "Are we meeting?" | | 2          | Telegram    | 2023-12-01 07:40:00 | Jane Smith | "Yes, at 10 AM!"  |
+
+
+
+
+---
+
+6. Keylogs Table:
+
+Purpose: Records keylogging data.
+
+Columns:
+
+keylog_id (INTEGER, Primary Key, Auto-incremented): Unique ID for each entry.
+
+application (TEXT, Not Null): The application where the keylogging occurred.
+
+time (DATETIME, Not Null): Timestamp of the entry.
+
+text (TEXT): Captured key input.
+
+
+
+Example Data: | keylog_id | application | time                 | text                   | |-----------|-------------|----------------------|------------------------| | 1         | Browser     | 2023-12-01 06:45:00 | "google.com search"    | | 2         | Notepad     | 2023-12-01 07:00:00 | "Meeting notes draft"  |
+
+
+
+
+---
+
+7. android_metadata Table:
+
+Purpose: Stores device locale metadata.
+
+Columns:
+
+locale (TEXT): Locale setting of the Android device (e.g., en_US).
+
+
+
+Example Data: | locale  | |---------| | en_US   |
+
+
+
+
+---
+
+Schema Design Analysis
+
+Strengths:
+
+Well-structured tables for various types of data.
+
+Use of primary keys ensures uniqueness for records.
+
+Datatypes are appropriate (e.g., TEXT for names, DATETIME for timestamps).
+
+Separation of data into logical entities makes it easy to query.
+
+
+Possible Improvements:
+
+Add foreign keys to establish relationships between tables (e.g., linking Contacts to Calls or SMS).
+
+Normalize the database to remove potential redundancy.
+
+Add constraints for data integrity (e.g., ensuring valid email formats in Contacts).
+
+
+
+
+---
+
+Would you like guidance on improving the schema, querying it efficiently, or integrating it with APIs?
+
